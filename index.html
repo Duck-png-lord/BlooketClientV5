@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blooket Quick Join</ti
+ae1
+tle>
+  <style>
+    body {
+      font: 16px system-ui, sans-serif;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      background: linear-gradient(135deg, #e7f2ff, #f8eaff);
+      color: #182033;
+    }
+    main {
+      width: min(90vw, 420px);
+      padding: 30px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 12px 40px #263d6622;
+    }
+    label { display: block; margin: 16px 0 6px; font-weight: 600; }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      border-radius: 9px;
+      font: inherit;
+    }
+    input { border: 1px solid #cbd3e1; }
+    button {
+      margin-top: 18px;
+      border: 0;
+      background: #635bff;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #result { margin-top: 18px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Blooket Quick Join</h1>
+    <p>Enter a game code to create a join link with a random nickname.</p>
+
+    <form id="joinForm">
+      <label for="code">Game code</label>
+      <input id="code" inputmode="numeric" placeholder="Enter game code" required>
+
+      <label for="nickname">Random nickname</label>
+      <input id="nickname" readonly>
+
+      <button type="submit">Create join link</button>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const adjectives = ["Sunny", "Swift", "Mighty", "Cosmic", "Clever", "Happy"];
+    const animals = ["Panda", "Falcon", "Tiger", "Otter", "Fox", "Koala"];
+
+    function randomName() {
+      const pick = items => items[Math.floor(Math.random() * items.length)];
+      return `${pick(adjectives)}${pick(animals)}${Math.floor(10 + Math.random() * 90)}`;
+    }
+
+    const nickname = document.querySelector("#nickname");
+    nickname.value = randomName();
+
+    document.querySelector("#joinForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const code = document.querySelector("#code").value.trim();
+      const result = document.querySelector("#result");
+
+      if (!/^\d+$/.test(code)) {
+        result.textContent = "Please enter a numeric game code.";
+        return;
+      }
+
+      const url = new URL("https://play.blooket.com/play");
+      url.searchParams.set("id", code);
+      url.searchParams.set("name", nickname.value);
+
+      const link = document.createElement("a");
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Open Blooket game";
+
+      result.replaceChildren("Your join link: ", link);
+      nickname.value = randomName();
+    });
+  </script>
+</body>
+</html>
