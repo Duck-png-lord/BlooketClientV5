@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blooket Quick Join</ti
-ae1
-tle>
+  <title>Blooket Quick Join</title>
   <style>
     body {
       font: 16px system-ui, sans-serif;
@@ -47,26 +45,21 @@ tle>
   <main>
     <h1>Blooket Quick Join</h1>
     <p>Enter a game code to create a join link with a random nickname.</p>
-
     <form id="joinForm">
       <label for="code">Game code</label>
       <input id="code" inputmode="numeric" placeholder="Enter game code" required>
-
       <label for="nickname">Random nickname</label>
       <input id="nickname" readonly>
-
       <button type="submit">Create join link</button>
     </form>
-
     <div id="result" aria-live="polite"></div>
   </main>
-
   <script>
     const adjectives = ["Sunny", "Swift", "Mighty", "Cosmic", "Clever", "Happy"];
     const animals = ["Panda", "Falcon", "Tiger", "Otter", "Fox", "Koala"];
 
     function randomName() {
-      const pick = items => items[Math.floor(Math.random() * items.length)];
+      const pick = list => list[Math.floor(Math.random() * list.length)];
       return `${pick(adjectives)}${pick(animals)}${Math.floor(10 + Math.random() * 90)}`;
     }
 
@@ -75,7 +68,6 @@ tle>
 
     document.querySelector("#joinForm").addEventListener("submit", event => {
       event.preventDefault();
-
       const code = document.querySelector("#code").value.trim();
       const result = document.querySelector("#result");
 
